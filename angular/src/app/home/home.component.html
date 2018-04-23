@@ -1,0 +1,23 @@
+<mat-toolbar color="primary">
+	<button mat-icon-button (click)="snav.toggle()"><mat-icon>menu</mat-icon></button>
+</mat-toolbar>
+
+<mat-sidenav-container class="example-sidenav-container">
+    <mat-sidenav #snav>
+			<mat-nav-list>
+				<mat-list-item><mat-icon matListIcon>add</mat-icon>Створити новий маршрут</mat-list-item>
+				<mat-list-item><mat-icon matListIcon>list</mat-icon>Список маршрутів</mat-list-item>
+			</mat-nav-list>
+    </mat-sidenav>
+
+    <mat-sidenav-content>
+		<agm-map
+			[latitude]="lat"
+			  [longitude]="lng"
+			[zoom]="zoom"
+			[disableDefaultUI]="false"
+			  [zoomControl]="false">
+		
+		</agm-map>
+    </mat-sidenav-content>
+  </mat-sidenav-container>

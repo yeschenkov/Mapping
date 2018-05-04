@@ -7,17 +7,11 @@
 			<mat-nav-list>
 				<mat-list-item><mat-icon matListIcon>add</mat-icon>Створити новий маршрут</mat-list-item>
 				<mat-list-item><mat-icon matListIcon>list</mat-icon>Список маршрутів</mat-list-item>
+				<mat-divider></mat-divider>
+				<mat-list-item class="menu__exit" (click)="logout()"><mat-icon matListIcon>exit_to_app</mat-icon>Вихід</mat-list-item>
 			</mat-nav-list>
     </mat-sidenav>
-
     <mat-sidenav-content>
-		<agm-map
-			[latitude]="lat"
-			  [longitude]="lng"
-			[zoom]="zoom"
-			[disableDefaultUI]="false"
-			  [zoomControl]="false">
-		
-		</agm-map>
+			<app-create-route></app-create-route>
     </mat-sidenav-content>
   </mat-sidenav-container>

@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { AuthenticationService } from '../authentication.service';
+import { Router } from '@angular/router';
 
 @Component({
 	selector: 'app-home',
@@ -6,14 +8,12 @@ import { Component, OnInit } from '@angular/core';
 	styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
-	zoom= 8;
-
-	// initial center position for the map
-	lat = 51.673858;
-	lng = 7.815982;
-	constructor() { }
+	constructor(private auth: AuthenticationService, private router: Router) { }
 
 	ngOnInit() {
 	}
-
+	public logout() {
+		this.auth.logout();
+		this.router.navigate(['/login']);
+	}
 }

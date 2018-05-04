@@ -1,0 +1,37 @@
+<div class="container">
+	<div class="map">
+		<agm-map
+			[latitude]="lat"
+			[longitude]="lng"
+			[zoom]="zoom"
+			[disableDefaultUI]="false"
+			[zoomControl]="false"
+			(mapClick)="mapClicked($event)">
+			<ng-container *ngIf="!direction">
+				<agm-marker 
+					*ngFor="let m of markers; let i = index"
+					[latitude]="m.lat"
+					[longitude]="m.lng"
+					[label]="m.label"
+					[markerDraggable]="m.draggable">
+				</agm-marker>
+			</ng-container>
+			  <agm-direction *ngIf="direction" [origin]="direction.origin" [destination]="direction.destination" [waypoints]="direction.waypoints" [optimizeWaypoints]="true"></agm-direction>
+		</agm-map>
+	</div>
+	<mat-card>
+		<mat-card-title>
+			Створити маршрут
+		</mat-card-title>
+		<mat-card-content>
+			<mat-card-subtitle>
+				1. Оберіть на карті своє місцеположення.
+			</mat-card-subtitle>
+			<mat-card-subtitle>
+				2. Оберіть на карті місця, які бажаєте відвідати.
+			</mat-card-subtitle>
+			<button mat-button color="primary" (click)="getDirection()">Створити маршрут</button>
+			<button mat-raised-button color="primary" (click)="saveDirection()">Зберегти маршрут</button>
+		</mat-card-content>
+	</mat-card>
+</div>

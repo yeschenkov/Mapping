@@ -81,7 +81,12 @@ export interface UserDetails {
 
 		return request;
 	}
-
+	public httpGet(url: string) {
+		return this.http.get(url, { headers: { Authorization: `Bearer ${this.getToken()}` }});
+	}
+	public httpPost(url: string, body: Object) {
+		return this.http.post(url, body, { headers: { Authorization: `Bearer ${this.getToken()}` }});
+	}
 	public register(user: TokenPayload): Observable<any> {
 		return this.request('post', 'register', user);
 	}
@@ -90,13 +95,8 @@ export interface UserDetails {
 		return this.request('post', 'login', user);
 	}
 
-	public profile(): Observable<any> {
-		return this.request('get', 'profile');
-	}
-
 	public logout(): void {
 		this.token = '';
 		window.localStorage.removeItem('mean-token');
-		this.router.navigateByUrl('/');
 	}
 }

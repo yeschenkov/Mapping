@@ -19,6 +19,10 @@ import { HttpClientModule } from '@angular/common/http';
 import { RegisterComponent } from './register/register.component';
 import { AuthenticationService } from './authentication.service';
 import { AuthGuardService } from './auth-guard.service';
+import { CreateRouteComponent } from './create-route/create-route.component';
+import { RoutesListComponent } from './routes-list/routes-list.component';
+import { AgmDirectionModule } from 'agm-direction';
+import { ApiService } from './api.service';
 
 const googleMapsCore = AgmCoreModule.forRoot({
 	apiKey : 'AIzaSyAey4LJYx_Qh2H4XQC6u0KHZvBRqeLlfoY',
@@ -29,13 +33,16 @@ const googleMapsCore = AgmCoreModule.forRoot({
 		AppComponent,
 		LoginComponent,
 		HomeComponent,
-		RegisterComponent
+		RegisterComponent,
+		CreateRouteComponent,
+		RoutesListComponent
 	],
 	imports: [
 		BrowserModule,
 		BrowserAnimationsModule,
 		AppRoutingModule,
 		googleMapsCore,
+		AgmDirectionModule,
 		FormsModule,
 		MatToolbarModule,
 		MatSidenavModule,
@@ -48,7 +55,8 @@ const googleMapsCore = AgmCoreModule.forRoot({
 	],
 	providers: [
 		AuthenticationService,
-		AuthGuardService
+		AuthGuardService,
+		ApiService
 	],
 	bootstrap: [AppComponent]
 })

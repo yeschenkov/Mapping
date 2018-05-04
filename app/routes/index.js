@@ -7,9 +7,9 @@ const auth = jwt({
 });
 
 const ctrlAuth = require('../controllers/auth');
-
-// profile
-//router.get('/profile', auth, ctrlProfile.profileRead);
+const ctrlDirection = require('../controllers/direction');
+// directions
+router.post('/direction', auth, ctrlDirection.saveDirection);
 
 // authentication
 router.post('/register', ctrlAuth.register);

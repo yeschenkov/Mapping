@@ -5,13 +5,13 @@
 <mat-sidenav-container class="example-sidenav-container">
     <mat-sidenav #snav>
 			<mat-nav-list>
-				<mat-list-item><mat-icon matListIcon>add</mat-icon>Створити новий маршрут</mat-list-item>
-				<mat-list-item><mat-icon matListIcon>list</mat-icon>Список маршрутів</mat-list-item>
+				<mat-list-item [routerLink]="['create']" routerLinkActive="active" (click)="snav.close()"><mat-icon matListIcon>add</mat-icon>Створити новий маршрут</mat-list-item>
+				<mat-list-item [routerLink]="['list']" routerLinkActive="active" (click)="snav.close()"><mat-icon matListIcon>list</mat-icon>Список маршрутів</mat-list-item>
 				<mat-divider></mat-divider>
 				<mat-list-item class="menu__exit" (click)="logout()"><mat-icon matListIcon>exit_to_app</mat-icon>Вихід</mat-list-item>
 			</mat-nav-list>
     </mat-sidenav>
     <mat-sidenav-content>
-			<app-create-route></app-create-route>
+			<router-outlet></router-outlet>
     </mat-sidenav-content>
   </mat-sidenav-container>

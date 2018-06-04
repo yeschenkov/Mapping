@@ -14,3 +14,10 @@ mat-form-field {
 mat-card-actions {
 	text-align: center;
 }
+a {
+	color: #009688;
+	text-decoration: none;
+}
+a:hover {
+	text-decoration: underline;
+}

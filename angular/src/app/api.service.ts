@@ -9,8 +9,8 @@ export class ApiService {
 		const url = '/api/direction';
 		this.auth.httpPost(url, direction).subscribe(res => res);
 	}
-	getDirections(direction: Object) {
+	getDirections() {
 		const url = '/api/direction';
-		this.auth.httpGet(url).subscribe(res => res);
+		return this.auth.httpGet(url);
 	}
 }

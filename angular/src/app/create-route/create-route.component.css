@@ -4,13 +4,15 @@ agm-map {
 	width: 100%;
 }
 .map{
-	width: 50%;
+	width: 100%;
 }
 mat-card {
-	width: 50%;
+	width: auto;
+	position: absolute;
 	box-sizing: border-box;
-	float: right;
-	height: calc(100vh - 64px);
+	top: 5px;
+	right: 5px;
+	height: auto;
 }
 .container {
 	position: relative;

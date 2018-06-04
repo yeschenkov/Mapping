@@ -30,8 +30,8 @@
 			<mat-card-subtitle>
 				2. Оберіть на карті місця, які бажаєте відвідати.
 			</mat-card-subtitle>
-			<button mat-button color="primary" (click)="getDirection()">Створити маршрут</button>
-			<button mat-raised-button color="primary" (click)="saveDirection()">Зберегти маршрут</button>
+			<button mat-button color="primary" (click)="getDirection()" >Створити маршрут</button>
+			<button mat-raised-button color="primary" (click)="saveDirection()" [disabled]="!direction">Зберегти маршрут</button>
 		</mat-card-content>
 	</mat-card>
 </div>

@@ -27,3 +27,22 @@ module.exports.saveDirection = function(req, res) {
   }
 
 };
+module.exports.getDirection = function(req, res) {
+	if (!req.payload._id) {
+		res.status(401).json({
+		  "message" : "UnauthorizedError: private profile"
+		});
+	 } else {
+		console.log(req.payload);
+	  Direction.find({'user':req.payload._id}).select('direction').exec((err,result)=>{
+		if(err){
+			res.status(500);
+			res.json({"message" : "Server error"});
+		}
+		res.status(200);
+		res.json({
+			"directions": result
+		});
+	 });
+	 }
+}

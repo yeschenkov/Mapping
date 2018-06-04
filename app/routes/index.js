@@ -9,6 +9,7 @@ const auth = jwt({
 const ctrlAuth = require('../controllers/auth');
 const ctrlDirection = require('../controllers/direction');
 // directions
+router.get('/direction', auth, ctrlDirection.getDirection);
 router.post('/direction', auth, ctrlDirection.saveDirection);
 
 // authentication

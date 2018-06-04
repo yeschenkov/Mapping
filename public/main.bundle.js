@@ -43,9 +43,9 @@ var ApiService = (function () {
         var url = '/api/direction';
         this.auth.httpPost(url, direction).subscribe(function (res) { return res; });
     };
-    ApiService.prototype.getDirections = function (direction) {
+    ApiService.prototype.getDirections = function () {
         var url = '/api/direction';
-        this.auth.httpGet(url).subscribe(function (res) { return res; });
+        return this.auth.httpGet(url);
     };
     ApiService = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Injectable"])(),
@@ -69,12 +69,16 @@ var ApiService = (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__login_login_component__ = __webpack_require__("../../../../../src/app/login/login.component.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__auth_guard_service__ = __webpack_require__("../../../../../src/app/auth-guard.service.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__register_register_component__ = __webpack_require__("../../../../../src/app/register/register.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__create_route_create_route_component__ = __webpack_require__("../../../../../src/app/create-route/create-route.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__routes_list_routes_list_component__ = __webpack_require__("../../../../../src/app/routes-list/routes-list.component.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+
+
 
 
 
@@ -98,7 +102,18 @@ var routes = [
     {
         path: 'home',
         component: __WEBPACK_IMPORTED_MODULE_2__home_home_component__["a" /* HomeComponent */],
-        canActivate: [__WEBPACK_IMPORTED_MODULE_4__auth_guard_service__["a" /* AuthGuardService */]]
+        canActivate: [__WEBPACK_IMPORTED_MODULE_4__auth_guard_service__["a" /* AuthGuardService */]],
+        children: [
+            { path: '', redirectTo: 'create', pathMatch: 'full' },
+            {
+                path: 'create',
+                component: __WEBPACK_IMPORTED_MODULE_6__create_route_create_route_component__["a" /* CreateRouteComponent */],
+            },
+            {
+                path: 'list',
+                component: __WEBPACK_IMPORTED_MODULE_7__routes_list_routes_list_component__["a" /* RoutesListComponent */],
+            }
+        ]
     },
     {
         path: '**',
@@ -437,7 +452,7 @@ exports = module.exports = __webpack_require__("../../../../css-loader/lib/css-b
 
 
 // module
-exports.push([module.i, "agm-map {\r\n\theight: calc(100vh - 64px);\r\n\tfloat: left;\r\n\twidth: 100%;\r\n}\r\n.map{\r\n\twidth: 50%;\r\n}\r\nmat-card {\r\n\twidth: 50%;\r\n\tbox-sizing: border-box;\r\n\tfloat: right;\r\n\theight: calc(100vh - 64px);\r\n}\r\n.container {\r\n\tposition: relative;\r\n\twidth:100%;\r\n}", ""]);
+exports.push([module.i, "agm-map {\r\n\theight: calc(100vh - 64px);\r\n\tfloat: left;\r\n\twidth: 100%;\r\n}\r\n.map{\r\n\twidth: 100%;\r\n}\r\nmat-card {\r\n\twidth: auto;\r\n\tposition: absolute;\r\n\tbox-sizing: border-box;\r\n\ttop: 5px;\r\n\tright: 5px;\r\n\theight: auto;\r\n}\r\n.container {\r\n\tposition: relative;\r\n\twidth:100%;\r\n}", ""]);
 
 // exports
 
@@ -450,7 +465,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/create-route/create-route.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"container\">\n\t<div class=\"map\">\n\t\t<agm-map\n\t\t\t[latitude]=\"lat\"\n\t\t\t[longitude]=\"lng\"\n\t\t\t[zoom]=\"zoom\"\n\t\t\t[disableDefaultUI]=\"false\"\n\t\t\t[zoomControl]=\"false\"\n\t\t\t(mapClick)=\"mapClicked($event)\">\n\t\t\t<ng-container *ngIf=\"!direction\">\n\t\t\t\t<agm-marker \n\t\t\t\t\t*ngFor=\"let m of markers; let i = index\"\n\t\t\t\t\t[latitude]=\"m.lat\"\n\t\t\t\t\t[longitude]=\"m.lng\"\n\t\t\t\t\t[label]=\"m.label\"\n\t\t\t\t\t[markerDraggable]=\"m.draggable\">\n\t\t\t\t</agm-marker>\n\t\t\t</ng-container>\n\t\t\t  <agm-direction *ngIf=\"direction\" [origin]=\"direction.origin\" [destination]=\"direction.destination\" [waypoints]=\"direction.waypoints\" [optimizeWaypoints]=\"true\"></agm-direction>\n\t\t</agm-map>\n\t</div>\n\t<mat-card>\n\t\t<mat-card-title>\n\t\t\tСтворити маршрут\n\t\t</mat-card-title>\n\t\t<mat-card-content>\n\t\t\t<mat-card-subtitle>\n\t\t\t\t1. Оберіть на карті своє місцеположення.\n\t\t\t</mat-card-subtitle>\n\t\t\t<mat-card-subtitle>\n\t\t\t\t2. Оберіть на карті місця, які бажаєте відвідати.\n\t\t\t</mat-card-subtitle>\n\t\t\t<button mat-button color=\"primary\" (click)=\"getDirection()\">Створити маршрут</button>\n\t\t\t<button mat-raised-button color=\"primary\" (click)=\"saveDirection()\">Зберегти маршрут</button>\n\t\t</mat-card-content>\n\t</mat-card>\n</div>"
+module.exports = "<div class=\"container\">\n\t<div class=\"map\">\n\t\t<agm-map\n\t\t\t[latitude]=\"lat\"\n\t\t\t[longitude]=\"lng\"\n\t\t\t[zoom]=\"zoom\"\n\t\t\t[disableDefaultUI]=\"false\"\n\t\t\t[zoomControl]=\"false\"\n\t\t\t(mapClick)=\"mapClicked($event)\">\n\t\t\t<ng-container *ngIf=\"!direction\">\n\t\t\t\t<agm-marker \n\t\t\t\t\t*ngFor=\"let m of markers; let i = index\"\n\t\t\t\t\t[latitude]=\"m.lat\"\n\t\t\t\t\t[longitude]=\"m.lng\"\n\t\t\t\t\t[label]=\"m.label\"\n\t\t\t\t\t[markerDraggable]=\"m.draggable\">\n\t\t\t\t</agm-marker>\n\t\t\t</ng-container>\n\t\t\t  <agm-direction *ngIf=\"direction\" [origin]=\"direction.origin\" [destination]=\"direction.destination\" [waypoints]=\"direction.waypoints\" [optimizeWaypoints]=\"true\"></agm-direction>\n\t\t</agm-map>\n\t</div>\n\t<mat-card>\n\t\t<mat-card-title>\n\t\t\tСтворити маршрут\n\t\t</mat-card-title>\n\t\t<mat-card-content>\n\t\t\t<mat-card-subtitle>\n\t\t\t\t1. Оберіть на карті своє місцеположення.\n\t\t\t</mat-card-subtitle>\n\t\t\t<mat-card-subtitle>\n\t\t\t\t2. Оберіть на карті місця, які бажаєте відвідати.\n\t\t\t</mat-card-subtitle>\n\t\t\t<button mat-button color=\"primary\" (click)=\"getDirection()\" >Створити маршрут</button>\n\t\t\t<button mat-raised-button color=\"primary\" (click)=\"saveDirection()\" [disabled]=\"!direction\">Зберегти маршрут</button>\n\t\t</mat-card-content>\n\t</mat-card>\n</div>"
 
 /***/ }),
 
@@ -530,7 +545,7 @@ exports = module.exports = __webpack_require__("../../../../css-loader/lib/css-b
 
 
 // module
-exports.push([module.i, "mat-nav-list mat-icon {\r\n\tmargin-right: 20px;\r\n}\r\n", ""]);
+exports.push([module.i, "mat-nav-list mat-icon {\r\n\tmargin-right: 20px;\r\n}\r\n.active {\r\n\tcolor: #F06292;\r\n}\r\n", ""]);
 
 // exports
 
@@ -543,7 +558,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/home/home.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<mat-toolbar color=\"primary\">\n\t<button mat-icon-button (click)=\"snav.toggle()\"><mat-icon>menu</mat-icon></button>\n</mat-toolbar>\n\n<mat-sidenav-container class=\"example-sidenav-container\">\n    <mat-sidenav #snav>\n\t\t\t<mat-nav-list>\n\t\t\t\t<mat-list-item><mat-icon matListIcon>add</mat-icon>Створити новий маршрут</mat-list-item>\n\t\t\t\t<mat-list-item><mat-icon matListIcon>list</mat-icon>Список маршрутів</mat-list-item>\n\t\t\t\t<mat-divider></mat-divider>\n\t\t\t\t<mat-list-item class=\"menu__exit\" (click)=\"logout()\"><mat-icon matListIcon>exit_to_app</mat-icon>Вихід</mat-list-item>\n\t\t\t</mat-nav-list>\n    </mat-sidenav>\n    <mat-sidenav-content>\n\t\t\t<app-create-route></app-create-route>\n    </mat-sidenav-content>\n  </mat-sidenav-container>\n"
+module.exports = "<mat-toolbar color=\"primary\">\n\t<button mat-icon-button (click)=\"snav.toggle()\"><mat-icon>menu</mat-icon></button>\n</mat-toolbar>\n\n<mat-sidenav-container class=\"example-sidenav-container\">\n    <mat-sidenav #snav>\n\t\t\t<mat-nav-list>\n\t\t\t\t<mat-list-item [routerLink]=\"['create']\" routerLinkActive=\"active\" (click)=\"snav.close()\"><mat-icon matListIcon>add</mat-icon>Створити новий маршрут</mat-list-item>\n\t\t\t\t<mat-list-item [routerLink]=\"['list']\" routerLinkActive=\"active\" (click)=\"snav.close()\"><mat-icon matListIcon>list</mat-icon>Список маршрутів</mat-list-item>\n\t\t\t\t<mat-divider></mat-divider>\n\t\t\t\t<mat-list-item class=\"menu__exit\" (click)=\"logout()\"><mat-icon matListIcon>exit_to_app</mat-icon>Вихід</mat-list-item>\n\t\t\t</mat-nav-list>\n    </mat-sidenav>\n    <mat-sidenav-content>\n\t\t\t<router-outlet></router-outlet>\n    </mat-sidenav-content>\n  </mat-sidenav-container>\n"
 
 /***/ }),
 
@@ -601,7 +616,7 @@ exports = module.exports = __webpack_require__("../../../../css-loader/lib/css-b
 
 
 // module
-exports.push([module.i, "mat-card {\r\n\tmax-width: 300px;\r\n\tmargin: 0 auto;\r\n\ttop: 20vh;\r\n}\r\nmat-card-title {\r\n\ttext-align: center;\r\n}\r\nmat-form-field {\r\n\twidth: 85%;\r\n\tdisplay: block;\r\n\tmargin: 0 auto;\r\n}\r\nmat-card-actions {\r\n\ttext-align: center;\r\n}", ""]);
+exports.push([module.i, "mat-card {\r\n\tmax-width: 300px;\r\n\tmargin: 0 auto;\r\n\ttop: 20vh;\r\n}\r\nmat-card-title {\r\n\ttext-align: center;\r\n}\r\nmat-form-field {\r\n\twidth: 85%;\r\n\tdisplay: block;\r\n\tmargin: 0 auto;\r\n}\r\nmat-card-actions {\r\n\ttext-align: center;\r\n}\r\na {\r\n\tcolor: #009688;\r\n\ttext-decoration: none;\r\n}\r\na:hover {\r\n\ttext-decoration: underline;\r\n}", ""]);
 
 // exports
 
@@ -760,7 +775,7 @@ exports = module.exports = __webpack_require__("../../../../css-loader/lib/css-b
 
 
 // module
-exports.push([module.i, "", ""]);
+exports.push([module.i, ".wrapper {\r\n\twidth: 100vw;\r\n\theight: calc(100vh - 64px);\r\n}", ""]);
 
 // exports
 
@@ -773,7 +788,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/routes-list/routes-list.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<p>\n  routes-list works!\n</p>\n"
+module.exports = "<div class=\"wrapper\"></div>"
 
 /***/ }),
 
@@ -783,6 +798,7 @@ module.exports = "<p>\n  routes-list works!\n</p>\n"
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return RoutesListComponent; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/esm5/core.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__api_service__ = __webpack_require__("../../../../../src/app/api.service.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -793,8 +809,16 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 
+
 var RoutesListComponent = (function () {
-    function RoutesListComponent() {
+    function RoutesListComponent(api) {
+        var _this = this;
+        this.api = api;
+        this.directions = [];
+        this.api.getDirections().subscribe(function (res) {
+            _this.directions = res['directions'];
+            console.log(_this.directions);
+        });
     }
     RoutesListComponent.prototype.ngOnInit = function () {
     };
@@ -804,7 +828,7 @@ var RoutesListComponent = (function () {
             template: __webpack_require__("../../../../../src/app/routes-list/routes-list.component.html"),
             styles: [__webpack_require__("../../../../../src/app/routes-list/routes-list.component.css")]
         }),
-        __metadata("design:paramtypes", [])
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__api_service__["a" /* ApiService */]])
     ], RoutesListComponent);
     return RoutesListComponent;
 }());
